@@ -8,6 +8,9 @@ Source-Free Unsupervised Domain Adaptation (SFUDA) has recently become a focus i
 
 
 ## Requirements
+```
+pip install -r requirements.txt
+```
 
 ## Data preparation
 We used MR images included contrast-enhanced T1-weighted (ceT1) images and high-resolution T2-weighted (hrT2) images. The original dataset can be found [here](https://www.cancerimagingarchive.net/collection/vestibular-schwannoma-seg/), and you can use the [official data preprocess code](https://github.com/KCL-BMEIS/VS_Seg).
@@ -27,18 +30,46 @@ data/
         validation/
 ```
 
+## Training
+### Pretrain on source dataset
+Pretrain diffusion model
+```
+python diffusion/ddpm/ddpm_train.py \
+    --data_type VS \
+    --save_dir $YOUR_DDPM_SAVE_PATH
+python diffusion/controlnet/controlnet_train.py \
+    --ddpm_ckpt $YOUR_CONTROLNET_SAVE_PATH
+```
 
-## Pretrain on source dataset
-Pretrain diffusion model:
+Pretrain segmentation model
+```
+python segmentation/seg_train.py  \
+    --data_dir data/VS/T1   \
+    --save_dir $YOUR_SEG_MODEL_SAVE_PATH  \ 
+    --seed $SEED
+```
 
-Pretrain segmentation model:
+### Domain adaptation
+Translate T2 images to T1 using edge
+```
+python rsa/1_translate.py
+```
 
-## Domain adaptation
-Translate T2 images to T1 using edge:
-```asdasd```
+Select reliable samples
+```
+python rsa/2_select.py  \
+    --save_dir $YOUR_SELECTED_SAMPLE_SAVE_DIR \
+    --seg_ckpt_dir $YOUR_CHECKPOINT_PATH  \
+    --seed $SEED
+```
 
-Select reliable samples:
-
-Finetune pretrained segmentation model:
+Finetune pretrained source segmentation model
+```
+python rsa/3_finetune.py \
+    --sample_dir $YOUR_SELECTED_SAMPLE_SAVE_DIR\
+    --save_dir $YOUR_CHECKPOINT_SAVE_PATH \
+    --checkpoint $YOUR_SOURCE_SEGMENTATION_MODEL\
+    --n_epoch 100
+```
 
 ## Testing

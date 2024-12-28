@@ -81,14 +81,12 @@ python rsa/3_finetune.py \
 
 ## Citation
 ```
-@InProceedings{Zen_Reliable_MICCAI2024,
-        author = { Zeng, Hongye and Zou, Ke and Chen, Zhihao and Zheng, Rui and Fu, Huazhu},
-        title = { { Reliable Source Approximation: Source-Free Unsupervised Domain Adaptation for Vestibular Schwannoma MRI Segmentation } },
-        booktitle = {proceedings of Medical Image Computing and Computer Assisted Intervention -- MICCAI 2024},
-        year = {2024},
-        publisher = {Springer Nature Switzerland},
-        volume = {LNCS 15010},
-        month = {October},
-        page = {pending}
+@inproceedings{zeng2024reliable,
+  title={Reliable source approximation: Source-free unsupervised domain adaptation for vestibular schwannoma MRI segmentation},
+  author={Zeng, Hongye and Zou, Ke and Chen, Zhihao and Zheng, Rui and Fu, Huazhu},
+  booktitle={International Conference on Medical Image Computing and Computer-Assisted Intervention},
+  pages={622--632},
+  year={2024},
+  organization={Springer}
 }
 ```

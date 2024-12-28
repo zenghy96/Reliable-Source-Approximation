@@ -1,0 +1,6 @@
+*.pyc
+data/
+outputs/
+checkpoints/
+**/.DS_Store
+.vscode/

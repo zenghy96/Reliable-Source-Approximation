@@ -21,8 +21,8 @@ from segmentation.utils.validation import validate
 from segmentation.utils.seed import set_seed
 from segmentation.utils.logger import Logger
 from segmentation.dataset.vs_dataset import VSDataset
-from rsa.dataset.train_dataset import GoBackDataset
-from rsa.dataset.sampler import TwoStreamBatchSampler
+from dataset.train_dataset import GoBackDataset
+from dataset.sampler import TwoStreamBatchSampler
 
 
 def get_args():

@@ -1,4 +1,6 @@
 # Reliable source approxmation (RSA)
+⭐️ ⭐️ ⭐️ We have uploaded [our diffusion checkpoint](#5-translation-demo) ! ⭐️ ⭐️ ⭐️ 
+
 **Reliable Source Approximation: Source-Free Unsupervised Domain Adaptation for Vestibular Schwannoma MRI Segmentation**, Early accepted by MICCAI'2024 paper
 
 Hongye Zeng, Ke Zou, Zhihao Chen, Rui Zheng, Huazhu Fu
@@ -73,9 +75,8 @@ python rsa/3_finetune.py \
 ```
 
 ## 5. Translation demo
-Comming soon ...
-
-Translate T1 image using [our diffusion checkpoints]().
+1. Dowload [our diffusion checkpoint](https://drive.google.com/file/d/1TOd9Swfywk6qgwdbM3KX1f-09TcJXjEW/view?usp=sharing) and unzip to ```checkpoints/```
+2. Run the demo ```python rsa/0_demo.py```
 
 
 ## Citation

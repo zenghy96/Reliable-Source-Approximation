@@ -1,15 +1,14 @@
-import scipy.io as sio
 import os
 from diffusers import DDPMScheduler
 import numpy as np
 import torch
 from torchvision import transforms as T
 import sys
-import argparse
 from dataclasses import dataclass
-
 from tqdm import tqdm
+from PIL import Image
 sys.path.append('.')
+
 # ## diffusion
 from diffusion.controlnet.models.UNet2DModel import UNet2DModel
 from diffusion.controlnet.models.controlnet import ControlNetModel
@@ -21,14 +20,12 @@ from utils import *
 @dataclass
 class Config:
     data_dir = 'data/VS/T2'
-    split = 'training'
-    output_dir = 'outputs/final_0/samples_2steps'
+    split = 'demo'
+    output_dir = 'outputs/demo'
     unet_ckpt_dir = 'checkpoints/vs_ddpm'
     controlnet_ckpt_dir = 'checkpoints/vs_controlnet'
 
-    # r_steps = [30, 40, 50, 60]
-    # r_steps = [30, 40, 50, 60]
-    r0, r1, n = 30, 80, 2
+    r0, r1, n = 30, 80, 3
     r_steps = np.linspace(float(r0), float(r1), int(n))
     run_num = 3
     num_inference_steps = 50
@@ -75,16 +72,24 @@ if __name__ == "__main__":
             conditions,
             num_inference_steps=config.num_inference_steps,
             generator=torch.manual_seed(0),
-            output_type='numpy',
-        )[0].squeeze()
+            output_type='pil',
+        )[0]
+        
+        # save to show
+        image = (image * 255).round().astype("uint8")
+        image = Image.fromarray(image, mode="L")
+        image.save(f'{config.output_dir}/{img_id}.png')
+        mask_true = (mask_true * 255).round().astype("uint8")
+        mask_true = Image.fromarray(mask_true, mode="L")
+        mask_true.save(f'{config.output_dir}/{img_id}_mask_true.png')
 
-        sio.savemat(
-            f"{config.output_dir}/{img_id}.mat",
-            {
-                'samples': samples,
-                'conditions': conditions,
-            }
-        )
+        for i in range(n_steps):
+            cond = conditions[i*config.run_num].cpu().numpy()
+            cond = (cond * 255).round().astype("uint8")
+            cond = Image.fromarray(cond.squeeze(), mode="L")
+            cond.save(f'{config.output_dir}/{img_id}_cond_{i}.png')
+            for j in range(config.run_num):
+                sample = samples[i*config.run_num+j]
+                sample.save(f'{config.output_dir}/{img_id}_sample_{i}_{j}.png')
 
-        del samples
     

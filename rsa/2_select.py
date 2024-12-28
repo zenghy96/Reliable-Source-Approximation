@@ -18,8 +18,8 @@ sys.path.append('.')
 # ## unet
 from segmentation.models.unet import EvidentialUNet
 from segmentation.models.model_tools import load_model
-from rsa.dataset.sample_dataset import SampleDataset
-from rsa.utils import *
+from dataset.sample_dataset import SampleDataset
+from utils import *
 
 
 import argparse
